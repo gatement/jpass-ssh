@@ -39,7 +39,7 @@ public class ProxySocketHandler extends Thread {
 				if (headStr.length() > 4
 						&& headStr.substring(headStr.length() - 4, headStr.length()).equals("\r\n\r\n")) {
 					
-					ProxyServer.log.info(headStr.toString());
+					//ProxyServer.log.info(headStr.toString());
 
 					// Extract HTTP method and target server:
 					//   Example1: CONNECT www.example.com:443 HTTP/1.1

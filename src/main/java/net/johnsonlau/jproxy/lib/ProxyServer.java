@@ -1,5 +1,6 @@
 package net.johnsonlau.jproxy.lib;
 
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -22,7 +23,8 @@ public class ProxyServer implements Runnable {
 	    ServerSocket serverSocket = null;
 		try {
 			SshClient.connect();
-			serverSocket = new ServerSocket(ProxyServer.settings.getProxyPort());
+			InetAddress addr = settings.getLocalListening() ? InetAddress.getLoopbackAddress() : null;
+			serverSocket = new ServerSocket(ProxyServer.settings.getProxyPort(), 50, addr);
 			serverSocket.setSoTimeout(1000);
 			log.info("==== Http proxy started at port: " + String.valueOf(settings.getProxyPort()));
 			while (true) {

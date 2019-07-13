@@ -12,6 +12,7 @@ public class App {
 		settings.setUsername(System.getProperty("username", "root"));
 		settings.setPassword(System.getProperty("password", ""));
 		settings.setProxyPort(Integer.parseInt(System.getProperty("proxyPort", "8119")));
+		settings.setLocalListening(Boolean.parseBoolean(System.getProperty("localListening", "true")));
 
 		final Thread thread = new Thread(new ProxyServer(settings, new MyProxyLog()), "ProxyThread");
 		thread.run();

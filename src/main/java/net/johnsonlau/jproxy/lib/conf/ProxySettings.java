@@ -10,20 +10,22 @@ public class ProxySettings {
 	private String username = "root";
 	private String password = "";
 	private int proxyPort = 8119;
+	private boolean localListening = true;
 
 	public ProxySettings() {
 	}
 
-	public ProxySettings(String serverAddr, int serverPort, String username, String password, int proxyPort) {
+	public ProxySettings(String serverAddr, int serverPort, String username, String password, int proxyPort, boolean localListening) {
 		this.serverAddr = serverAddr;
 		this.serverPort = serverPort;
 		this.username = username;
 		this.password = password;
 		this.proxyPort = proxyPort;
+		this.localListening = localListening;
 	}
 
 	public String getServerAddr() {
-		return serverAddr;
+		return this.serverAddr;
 	}
 
 	public void setServerAddr(String serverAddr) {
@@ -31,7 +33,7 @@ public class ProxySettings {
 	}
 
 	public int getServerPort() {
-		return serverPort;
+		return this.serverPort;
 	}
 
 	public void setServerPort(int serverPort) {
@@ -39,7 +41,7 @@ public class ProxySettings {
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -47,7 +49,7 @@ public class ProxySettings {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -55,11 +57,19 @@ public class ProxySettings {
 	}
 
 	public int getProxyPort() {
-		return proxyPort;
+		return this.proxyPort;
 	}
 
 	public void setProxyPort(int proxyPort) {
 		this.proxyPort = proxyPort;
+	}
+
+	public boolean getLocalListening() {
+		return this.localListening;
+	}
+
+	public void setLocalListening(boolean localListening) {
+		this.localListening = localListening;
 	}
 
 	public int getSshAliveMaxCount() {

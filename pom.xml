@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.johnsonlau</groupId>
-	<artifactId>jproxy</artifactId>
+	<artifactId>jproxy-ssh</artifactId>
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
-	<name>jproxy</name>
+	<name>jproxy-ssh</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -22,7 +22,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>jproxy</finalName>
+		<finalName>jproxy-ssh</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

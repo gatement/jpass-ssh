@@ -97,7 +97,7 @@ public class ProxySocketHandler extends Thread {
 				inputByte = clientInput.read();
 			}
 
-			// do the following transmission
+			// 5. do the following transmission
 			if (sshChannel != null) {
 				// New thread continue sending data to target server
 				new ProxyStreamingThread(clientInput, proxyOutput).start();

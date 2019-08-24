@@ -14,8 +14,8 @@ public class ProxySocketHandler extends Thread {
 
 	public ProxySocketHandler(Socket socket) {
 		this.socket = socket;
-		ProxyServer.log.info("Creating connection, connection count up to = "
-				+ Integer.valueOf(ProxyServer.connectionCount.incrementAndGet()));
+		ProxyServer.connectionCount.incrementAndGet();
+		//ProxyServer.log.info("Creating connection, connection count up to = " + Integer.valueOf(ProxyServer.connectionCount.get()));
 	}
 
 	@Override
@@ -66,8 +66,9 @@ public class ProxySocketHandler extends Thread {
 							targetPort = Integer.valueOf(host[1]);
 						}
 					}
+
 					// Connect target server
-					ProxyServer.log.info("Connect target " + targetHost + ":" + String.valueOf(targetPort));
+					ProxyServer.log.info("[" + Integer.valueOf(ProxyServer.connectionCount.get()) + "] " + targetHost + ":" + String.valueOf(targetPort));
 
 					// 3. create proxy channel
 					// Use SSH Tunnel to connect remote server
@@ -167,8 +168,8 @@ public class ProxySocketHandler extends Thread {
 				}
 			}
 
-			ProxyServer.log.info("Closed connection, connection count down to = "
-					+ Integer.valueOf(ProxyServer.connectionCount.decrementAndGet()));
+			ProxyServer.connectionCount.decrementAndGet();
+			//ProxyServer.log.info("Closed connection, connection count down to = " + Integer.valueOf(ProxyServer.connectionCount.get()));
 		}
 	}
 }

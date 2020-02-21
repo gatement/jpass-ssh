@@ -1,4 +1,4 @@
-package net.johnsonlau.jproxy.lib;
+package net.johnsonlau.jpass.lib;
 
 import java.io.IOException;
 
@@ -16,17 +16,17 @@ public class SshClient {
 
 			JSch sshClient = new JSch();
 			sshSession = sshClient.getSession(
-					ProxyServer.settings.getUsername(), 
-					ProxyServer.settings.getServerAddr(),
-					ProxyServer.settings.getServerPort());
-			sshSession.setPassword(ProxyServer.settings.getPassword());
+					PassServer.settings.getUsername(), 
+					PassServer.settings.getServerAddr(),
+					PassServer.settings.getServerPort());
+			sshSession.setPassword(PassServer.settings.getPassword());
 			sshSession.setConfig("StrictHostKeyChecking", "no"); // ask | yes | no
-			sshSession.setServerAliveCountMax(ProxyServer.settings.getSshAliveMaxCount());
-			sshSession.setServerAliveInterval(ProxyServer.settings.getSshAliveIntervalMs());
+			sshSession.setServerAliveCountMax(PassServer.settings.getSshAliveMaxCount());
+			sshSession.setServerAliveInterval(PassServer.settings.getSshAliveIntervalMs());
 			sshSession.setDaemonThread(true);
 			sshSession.connect();
 
-			ProxyServer.log.info("==== SSH tunnel connected.");
+			PassServer.log.info("==== SSH tunnel connected.");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -36,11 +36,11 @@ public class SshClient {
 			throws JSchException, IOException {
 		try {
 			Channel channel = sshSession.getStreamForwarder(targetHost, targetPort);
-			channel.connect(ProxyServer.settings.getSshChannelOpenTimeoutMs());
+			channel.connect(PassServer.settings.getSshChannelOpenTimeoutMs());
 			return channel;
 		} catch (JSchException ex) {
 			if (!retrying && "session is down".equals(ex.getMessage())) {
-				ProxyServer.log.info("Reconnecting SSH tunnel");
+				PassServer.log.info("Reconnecting SSH tunnel");
 				connect();
 				return getStreamForwarder(targetHost, targetPort, true);
 			} else {
@@ -53,9 +53,9 @@ public class SshClient {
 		if (sshSession != null) {
 			try {
                 sshSession.disconnect();
-                ProxyServer.log.info("==== SSH tunnel disconnected.");
+                PassServer.log.info("==== SSH tunnel disconnected.");
 			} catch (Exception ex) {
-				ProxyServer.log.info("exception: " + ex.getMessage());
+				PassServer.log.info("exception: " + ex.getMessage());
 				ex.printStackTrace();
 			}
 			sshSession = null;

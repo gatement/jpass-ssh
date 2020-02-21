@@ -1,4 +1,4 @@
-package net.johnsonlau.jproxy.lib;
+package net.johnsonlau.jpass.lib;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,13 +8,13 @@ import java.net.SocketException;
 
 import com.jcraft.jsch.Channel;
 
-public class ProxySocketHandler extends Thread {
+public class PassSocketHandler extends Thread {
 
 	private Socket socket;
 
-	public ProxySocketHandler(Socket socket) {
+	public PassSocketHandler(Socket socket) {
 		this.socket = socket;
-		ProxyServer.connectionCount.incrementAndGet();
+		PassServer.connectionCount.incrementAndGet();
 		//ProxyServer.log.info("Creating connection, connection count up to = " + Integer.valueOf(ProxyServer.connectionCount.get()));
 	}
 
@@ -68,7 +68,7 @@ public class ProxySocketHandler extends Thread {
 					}
 
 					// Connect target server
-					ProxyServer.log.info("[" + Integer.valueOf(ProxyServer.connectionCount.get()) + "] " + targetHost + ":" + String.valueOf(targetPort));
+					PassServer.log.info("[" + Integer.valueOf(PassServer.connectionCount.get()) + "] " + targetHost + ":" + String.valueOf(targetPort));
 
 					// 3. create proxy channel
 					// Use SSH Tunnel to connect remote server
@@ -101,7 +101,7 @@ public class ProxySocketHandler extends Thread {
 			// 5. do the following transmission
 			if (sshChannel != null) {
 				// New thread continue sending data to target server
-				new ProxyStreamingThread(clientInput, proxyOutput).start();
+				new PassStreamingThread(clientInput, proxyOutput).start();
 
 				// Receive target response
 				byte[] data = new byte[65536]; // 64KB
@@ -115,7 +115,7 @@ public class ProxySocketHandler extends Thread {
 		} catch (SocketException ex) {
 			// peer closed the socket
 		} catch (Exception ex) {
-			ProxyServer.log.info("exception: " + ex.getMessage());
+			PassServer.log.info("exception: " + ex.getMessage());
 			ex.printStackTrace();
 		} finally {
 			if (proxyInput != null) {
@@ -168,7 +168,7 @@ public class ProxySocketHandler extends Thread {
 				}
 			}
 
-			ProxyServer.connectionCount.decrementAndGet();
+			PassServer.connectionCount.decrementAndGet();
 			//ProxyServer.log.info("Closed connection, connection count down to = " + Integer.valueOf(ProxyServer.connectionCount.get()));
 		}
 	}

@@ -1,6 +1,6 @@
-package net.johnsonlau.jproxy.lib.conf;
+package net.johnsonlau.jpass.lib.conf;
 
-public class ProxySettings {
+public class PassSettings {
 	private int SSH_ALIVE_MAX_COUNT = 3;
 	private int SSH_ALIVE_INTERVAL_MS = 60000;
 	private int SSH_CHANNEL_OPEN_TIMEOUT_MS = 10000;
@@ -12,10 +12,10 @@ public class ProxySettings {
 	private int proxyPort = 8119;
 	private boolean localListening = true;
 
-	public ProxySettings() {
+	public PassSettings() {
 	}
 
-	public ProxySettings(String serverAddr, int serverPort, String username, String password, int proxyPort, boolean localListening) {
+	public PassSettings(String serverAddr, int serverPort, String username, String password, int proxyPort, boolean localListening) {
 		this.serverAddr = serverAddr;
 		this.serverPort = serverPort;
 		this.username = username;

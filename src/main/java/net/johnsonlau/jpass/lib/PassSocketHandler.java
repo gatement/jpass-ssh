@@ -40,32 +40,39 @@ public class PassSocketHandler extends Thread {
 					// Finish receiving HTTP headers
 					if (headStr.length() > 4 && headStr.substring(headStr.length() - 4, headStr.length()).equals("\r\n\r\n")) {
 						
-						//ProxyServer.log.info(headStr.toString());
+						PassServer.log.info(headStr.toString());
 
 						// Extract HTTP method and target server:
 						//   Example1: CONNECT www.example.com:443 HTTP/1.1
 						//   Example2: POST http://www.example.com/a/b/c HTTP/1.1
-						String[] firstLine = headStr.toString().split("\r\n")[0].split(" ");
+						//   Example3: GET /johnsontest HTTP/1.1
+						//             Host: www.example.com
+						//             Host: www.example.com:8080
+
+						String[] headerLines = headStr.toString().split("\r\n");
+						String[] firstLine = headerLines[0].split(" ");
 						
 						// 1. get httpMethod
 						String httpMethod = firstLine[0];
+						String hostLine = firstLine[1];
 
 						// 2. get targetHost, targetPort
-						String hostLine = firstLine[1];
 						String targetHost = "";
 						int targetPort = 80;
-						if (hostLine.toLowerCase().startsWith("http")) {
+						if ("CONNECT".equalsIgnoreCase(httpMethod)) {
+							String[] host = hostLine.split(":");
+							targetHost = host[0];
+							if (host.length > 1) {
+								targetPort = Integer.valueOf(host[1]);
+							}
+						} else if (hostLine.toLowerCase().startsWith("http")) {
 							String[] host = hostLine.split("://")[1].split("/")[0].split(":");
 							targetHost = host[0];
 							if (host.length > 1) {
 								targetPort = Integer.valueOf(host[1]);
 							}
 						} else {
-							String[] host = hostLine.split(":");
-							targetHost = host[0];
-							if (host.length > 1) {
-								targetPort = Integer.valueOf(host[1]);
-							}
+							PassServer.log.info("Error: could not resolve target host and port!");
 						}
 
 						// Connect target server
@@ -102,7 +109,7 @@ public class PassSocketHandler extends Thread {
 				byte[] header = {0, 0, 0, 0, 0, 0};
 				int readBytes = 0;
 				while(readBytes < 6) {
-					readBytes += clientInput.read(header, 0, 6);
+					readBytes += clientInput.read(header, 0, 6 - readBytes);
 				}
 
 				String targetHost = (header[0] & 0xff) + "." + (header[1] & 0xff) + "." + (header[2] & 0xff) + "." + (header[3] & 0xff);

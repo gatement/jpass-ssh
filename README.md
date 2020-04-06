@@ -3,7 +3,7 @@
 
 ## package and run
 * package `./mvnw clean package`
-* run `java -DserverAddr=192.168.1.1 -DserverPort=22 -Dusername=root -Dpassword=123456 -DproxyPort=8119 -DlocalListening=true -jar target/jpass-ssh.jar`
+* run `java -DserverAddr=192.168.1.1 -DserverPort=22 -Dusername=root -Dpassword=123456 -DproxyPort=8119 -DserveLocalOnly=true -DserviceType=http|transparent -jar target/jpass-ssh.jar`
 
 ## reference
 * https://blog.csdn.net/dotalee/article/details/77838659

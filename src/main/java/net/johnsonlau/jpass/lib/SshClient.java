@@ -26,7 +26,7 @@ public class SshClient {
 			sshSession.setDaemonThread(true);
 			sshSession.connect();
 
-			PassServer.log.info("==== SSH tunnel connected.");
+			PassServer.log.info("==== jPass tunnel connected.");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

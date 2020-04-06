@@ -23,10 +23,10 @@ public class PassServer implements Runnable {
 	    ServerSocket serverSocket = null;
 		try {
 			SshClient.connect();
-			InetAddress addr = settings.getLocalListening() ? InetAddress.getLoopbackAddress() : null;
-			serverSocket = new ServerSocket(PassServer.settings.getProxyPort(), 50, addr);
-			serverSocket.setSoTimeout(1000);
-			log.info("==== Http proxy started at port: " + String.valueOf(settings.getProxyPort()));
+			InetAddress addr = settings.getServeLocalOnly() ? InetAddress.getLoopbackAddress() : null;
+			serverSocket = new ServerSocket(settings.getProxyPort(), settings.getListenerBacklog(), addr);
+			serverSocket.setSoTimeout(settings.getListenerSoTimeout());
+			log.info("==== jPass started at port: " + String.valueOf(settings.getProxyPort()));
 			while (true) {
 				try {
 					Socket socket = serverSocket.accept();

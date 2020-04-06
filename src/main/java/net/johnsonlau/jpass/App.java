@@ -2,6 +2,7 @@ package net.johnsonlau.jpass;
 
 import net.johnsonlau.jpass.impl.MyPassLog;
 import net.johnsonlau.jpass.lib.PassServer;
+import net.johnsonlau.jpass.lib.ServiceType;
 import net.johnsonlau.jpass.lib.conf.PassSettings;
 
 public class App {
@@ -12,17 +13,10 @@ public class App {
 		settings.setUsername(System.getProperty("username", "root"));
 		settings.setPassword(System.getProperty("password", ""));
 		settings.setProxyPort(Integer.parseInt(System.getProperty("proxyPort", "8119")));
-		settings.setLocalListening(Boolean.parseBoolean(System.getProperty("localListening", "true")));
+		settings.setServeLocalOnly(Boolean.parseBoolean(System.getProperty("serveLocalOnly", "true")));
+		settings.setServiceType(ServiceType.valueOf(System.getProperty("serviceType", "http").toUpperCase()));
 
 		final Thread thread = new Thread(new PassServer(settings, new MyPassLog()), "ProxyThread");
 		thread.run();
-
-		// to be stopped 
-		//thread.start();
-		//try {
-		//	Thread.sleep(10000);
-		//} catch (InterruptedException ex) {
-		//}
-		//thread.interrupt();
 	}
 }

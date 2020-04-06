@@ -1,27 +1,33 @@
 package net.johnsonlau.jpass.lib.conf;
 
+import net.johnsonlau.jpass.lib.ServiceType;
+
 public class PassSettings {
 	private int SSH_ALIVE_MAX_COUNT = 3;
 	private int SSH_ALIVE_INTERVAL_MS = 60000;
 	private int SSH_CHANNEL_OPEN_TIMEOUT_MS = 10000;
+	private int LISTENER_SO_TIMEOUT = 1000;
+	private int LISTENER_BACKLOG = 50;
 
 	private String serverAddr = "";
 	private int serverPort = 22;
 	private String username = "root";
 	private String password = "";
 	private int proxyPort = 8119;
-	private boolean localListening = true;
+	private boolean serveLocalOnly = true;
+	private ServiceType serviceType = ServiceType.HTTP;
 
 	public PassSettings() {
 	}
 
-	public PassSettings(String serverAddr, int serverPort, String username, String password, int proxyPort, boolean localListening) {
+	public PassSettings(String serverAddr, int serverPort, String username, String password, int proxyPort, boolean serveLocalOnly, ServiceType serviceType) {
 		this.serverAddr = serverAddr;
 		this.serverPort = serverPort;
 		this.username = username;
 		this.password = password;
 		this.proxyPort = proxyPort;
-		this.localListening = localListening;
+		this.serveLocalOnly = serveLocalOnly;
+		this.serviceType = serviceType;
 	}
 
 	public String getServerAddr() {
@@ -64,12 +70,20 @@ public class PassSettings {
 		this.proxyPort = proxyPort;
 	}
 
-	public boolean getLocalListening() {
-		return this.localListening;
+	public boolean getServeLocalOnly() {
+		return this.serveLocalOnly;
 	}
 
-	public void setLocalListening(boolean localListening) {
-		this.localListening = localListening;
+	public void setServeLocalOnly(boolean serveLocalOnly) {
+		this.serveLocalOnly = serveLocalOnly;
+	}
+
+	public ServiceType getServiceType() {
+		return this.serviceType;
+	}
+
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
 	}
 
 	public int getSshAliveMaxCount() {
@@ -82,5 +96,13 @@ public class PassSettings {
 
 	public int getSshChannelOpenTimeoutMs() {
 		return SSH_CHANNEL_OPEN_TIMEOUT_MS;
+	}
+
+	public int getListenerSoTimeout() {
+		return LISTENER_SO_TIMEOUT;
+	}
+
+	public int getListenerBacklog() {
+		return LISTENER_BACKLOG;
 	}
 }

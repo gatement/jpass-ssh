@@ -40,7 +40,7 @@ public class PassSocketHandler extends Thread {
 					// Finish receiving HTTP headers
 					if (headStr.length() > 4 && headStr.substring(headStr.length() - 4, headStr.length()).equals("\r\n\r\n")) {
 						
-						PassServer.log.info(headStr.toString());
+						//PassServer.log.info(headStr.toString());
 
 						// Extract HTTP method and target server:
 						//   Example1: CONNECT www.example.com:443 HTTP/1.1

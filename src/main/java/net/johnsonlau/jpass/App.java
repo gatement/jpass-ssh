@@ -17,6 +17,19 @@ public class App {
 		settings.setServiceType(ServiceType.valueOf(System.getProperty("serviceType", "http").toUpperCase()));
 
 		final Thread thread = new Thread(new PassServer(settings, new MyPassLog()), "ProxyThread");
+
+		// run at the current thread
 		thread.run();
+
+		/*
+		// run at a new thread
+		thread.start();
+
+		try {
+			Thread.sleep(Long.MAX_VALUE);
+		} catch (InterruptedException ex) {
+		}
+		thread.interrupt();
+		*/
 	}
 }

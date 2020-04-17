@@ -7,6 +7,8 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+import net.johnsonlau.jpass.App;
+
 public class SshClient {
 	public static Session sshSession;
 
@@ -16,17 +18,17 @@ public class SshClient {
 
 			JSch sshClient = new JSch();
 			sshSession = sshClient.getSession(
-					PassServer.settings.getUsername(), 
-					PassServer.settings.getServerAddr(),
-					PassServer.settings.getServerPort());
-			sshSession.setPassword(PassServer.settings.getPassword());
+					App.settings.getUsername(), 
+					App.settings.getServerAddr(),
+					App.settings.getServerPort());
+			sshSession.setPassword(App.settings.getPassword());
 			sshSession.setConfig("StrictHostKeyChecking", "no"); // ask | yes | no
-			sshSession.setServerAliveCountMax(PassServer.settings.getSshAliveMaxCount());
-			sshSession.setServerAliveInterval(PassServer.settings.getSshAliveIntervalMs());
+			sshSession.setServerAliveCountMax(App.settings.getSshAliveMaxCount());
+			sshSession.setServerAliveInterval(App.settings.getSshAliveIntervalMs());
 			sshSession.setDaemonThread(true);
 			sshSession.connect();
 
-			PassServer.log.info("==== jPass tunnel connected.");
+			App.log.info("==== jPass tunnel connected.");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -36,11 +38,11 @@ public class SshClient {
 			throws JSchException, IOException {
 		try {
 			Channel channel = sshSession.getStreamForwarder(targetHost, targetPort);
-			channel.connect(PassServer.settings.getSshChannelOpenTimeoutMs());
+			channel.connect(App.settings.getSshChannelOpenTimeoutMs());
 			return channel;
 		} catch (JSchException ex) {
 			if (!retrying && "session is down".equals(ex.getMessage())) {
-				PassServer.log.info("Reconnecting SSH tunnel");
+				App.log.info("Reconnecting SSH tunnel");
 				connect();
 				return getStreamForwarder(targetHost, targetPort, true);
 			} else {
@@ -53,9 +55,9 @@ public class SshClient {
 		if (sshSession != null) {
 			try {
                 sshSession.disconnect();
-                PassServer.log.info("==== SSH tunnel disconnected.");
+                App.log.info("==== SSH tunnel disconnected.");
 			} catch (Exception ex) {
-				PassServer.log.info("exception: " + ex.getMessage());
+				App.log.info("exception: " + ex.getMessage());
 				ex.printStackTrace();
 			}
 			sshSession = null;

@@ -13,9 +13,10 @@ public class PassSettings {
 	private int serverPort = 22;
 	private String username = "root";
 	private String password = "";
-	private int proxyPort = 8119;
+	private int httpPort = 8119;
+	private int tranPort = 8117;
+	private int dnsPort = 53;
 	private boolean serveLocalOnly = true;
-	private ServiceType serviceType = ServiceType.HTTP;
 
 	public PassSettings() {
 	}
@@ -25,9 +26,8 @@ public class PassSettings {
 		this.serverPort = serverPort;
 		this.username = username;
 		this.password = password;
-		this.proxyPort = proxyPort;
+		this.httpPort = proxyPort;
 		this.serveLocalOnly = serveLocalOnly;
-		this.serviceType = serviceType;
 	}
 
 	public String getServerAddr() {
@@ -62,12 +62,28 @@ public class PassSettings {
 		this.password = password;
 	}
 
-	public int getProxyPort() {
-		return this.proxyPort;
+	public int getHttpPort() {
+		return this.httpPort;
 	}
 
-	public void setProxyPort(int proxyPort) {
-		this.proxyPort = proxyPort;
+	public void setHttpPort(int httpPort) {
+		this.httpPort = httpPort;
+	}
+
+	public int getTranPort() {
+		return this.tranPort;
+	}
+
+	public void setTranPort(int tranPort) {
+		this.tranPort = tranPort;
+	}
+
+	public int getDnsPort() {
+		return this.dnsPort;
+	}
+
+	public void setDnsPort(int dnsPort) {
+		this.dnsPort = dnsPort;
 	}
 
 	public boolean getServeLocalOnly() {
@@ -76,14 +92,6 @@ public class PassSettings {
 
 	public void setServeLocalOnly(boolean serveLocalOnly) {
 		this.serveLocalOnly = serveLocalOnly;
-	}
-
-	public ServiceType getServiceType() {
-		return this.serviceType;
-	}
-
-	public void setServiceType(ServiceType serviceType) {
-		this.serviceType = serviceType;
 	}
 
 	public int getSshAliveMaxCount() {

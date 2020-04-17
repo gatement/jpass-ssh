@@ -37,13 +37,21 @@ public class DnsSocketHandler extends Thread {
 
 			// create proxy channel
 			// Use SSH Tunnel to connect remote server
+			App.log.info(App.settings.getDnsRemoteServer() + ":" + String.valueOf(App.settings.getDnsRemotePort()));
 			sshChannel = SshClient.getStreamForwarder(App.settings.getDnsRemoteServer(), App.settings.getDnsRemotePort(), false);
 			proxyInput = sshChannel.getInputStream();
 			proxyOutput = sshChannel.getOutputStream();
 		
 			// do the following transmission
 			if (sshChannel != null) {
-				// receive target response
+				// send request
+				proxyOutput.write(packet.getData(), 0, packet.getLength());
+
+				// debug
+				App.log.info("sending: " + String.valueOf(packet.getLength()));
+				Util.printBytes(packet.getData(), packet.getLength());
+				
+				// receive response
 				byte[] data = new byte[65536]; // 64KB
 				int readCount = 0;
 				while (true) {
@@ -54,8 +62,11 @@ public class DnsSocketHandler extends Thread {
 						break;
 					}
 				}
+				// debug
+				App.log.info("recvd: " + String.valueOf(readCount));
+				Util.printBytes(packet.getData(), readCount);
 				
-				// send to client
+				// transfer response
 	            client = new DatagramSocket();
 				DatagramPacket packets = new DatagramPacket(data, readCount, new InetSocketAddress(fromHost, fromPort));
 				client.send(packets);

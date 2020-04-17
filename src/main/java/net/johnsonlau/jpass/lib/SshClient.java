@@ -18,10 +18,10 @@ public class SshClient {
 
 			JSch sshClient = new JSch();
 			sshSession = sshClient.getSession(
-					App.settings.getUsername(), 
-					App.settings.getServerAddr(),
-					App.settings.getServerPort());
-			sshSession.setPassword(App.settings.getPassword());
+					App.settings.getSshUsername(), 
+					App.settings.getSshServer(),
+					App.settings.getSshPort());
+			sshSession.setPassword(App.settings.getSshPassword());
 			sshSession.setConfig("StrictHostKeyChecking", "no"); // ask | yes | no
 			sshSession.setServerAliveCountMax(App.settings.getSshAliveMaxCount());
 			sshSession.setServerAliveInterval(App.settings.getSshAliveIntervalMs());

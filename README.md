@@ -3,7 +3,21 @@
 
 ## package and run
 * package `./mvnw clean package`
-* run `java -DserverAddr=192.168.1.1 -DserverPort=22 -Dusername=root -Dpassword=123456 -DhttpPort=8119 -DtranPort=8119 -DdnsPort=53 -DserveLocalOnly=true -jar target/jpass-ssh.jar`
+* run 
+<pre>
+java 
+-DsshServer=192.168.1.1 
+-DsshPort=22 
+-DsshUsername=root 
+-DsshPassword=123456 
+-DhttpPort=8119 
+-DtranPort=8119 
+-DdnsPort=53
+-DdnsRemoteServer=127.0.0.1
+-DdnsRemotePort=53
+-DserveLocalOnly=true
+-jar target/jpass-ssh.jar
+</pre>
 
 ## reference
 * https://blog.csdn.net/dotalee/article/details/77838659

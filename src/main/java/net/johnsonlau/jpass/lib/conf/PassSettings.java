@@ -1,7 +1,5 @@
 package net.johnsonlau.jpass.lib.conf;
 
-import net.johnsonlau.jpass.lib.ServiceType;
-
 public class PassSettings {
 	private int SSH_ALIVE_MAX_COUNT = 3;
 	private int SSH_ALIVE_INTERVAL_MS = 60000;
@@ -9,57 +7,50 @@ public class PassSettings {
 	private int LISTENER_SO_TIMEOUT = 1000;
 	private int LISTENER_BACKLOG = 50;
 
-	private String serverAddr = "";
-	private int serverPort = 22;
-	private String username = "root";
-	private String password = "";
+	private String sshServer = "";
+	private int sshPort = 22;
+	private String sshUsername = "root";
+	private String sshPassword = "";
 	private int httpPort = 8119;
 	private int tranPort = 8117;
 	private int dnsPort = 53;
+	private String dnsRemoteServer = "127.0.0.1";
+	private int dnsRemotePort = 53;
 	private boolean serveLocalOnly = true;
 
 	public PassSettings() {
 	}
 
-	public PassSettings(String serverAddr, int serverPort, String username, String password, int proxyPort, boolean serveLocalOnly, ServiceType serviceType) {
-		this.serverAddr = serverAddr;
-		this.serverPort = serverPort;
-		this.username = username;
-		this.password = password;
-		this.httpPort = proxyPort;
-		this.serveLocalOnly = serveLocalOnly;
+	public String getSshServer() {
+		return this.sshServer;
 	}
 
-	public String getServerAddr() {
-		return this.serverAddr;
+	public void setSshServer(String sshServer) {
+		this.sshServer = sshServer;
 	}
 
-	public void setServerAddr(String serverAddr) {
-		this.serverAddr = serverAddr;
+	public int getSshPort() {
+		return this.sshPort;
 	}
 
-	public int getServerPort() {
-		return this.serverPort;
+	public void setSshPort(int sshPort) {
+		this.sshPort = sshPort;
 	}
 
-	public void setServerPort(int serverPort) {
-		this.serverPort = serverPort;
+	public String getSshUsername() {
+		return this.sshUsername;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public void setSshUsername(String sshUsername) {
+		this.sshUsername = sshUsername;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public String getSshPassword() {
+		return this.sshPassword;
 	}
 
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setSshPassword(String sshPassword) {
+		this.sshPassword = sshPassword;
 	}
 
 	public int getHttpPort() {
@@ -84,6 +75,22 @@ public class PassSettings {
 
 	public void setDnsPort(int dnsPort) {
 		this.dnsPort = dnsPort;
+	}
+
+	public String getDnsRemoteServer() {
+		return this.dnsRemoteServer;
+	}
+
+	public void setDnsRemoteServer(String dnsRemoteServer) {
+		this.dnsRemoteServer = dnsRemoteServer;
+	}
+
+	public int getDnsRemotePort() {
+		return this.dnsRemotePort;
+	}
+
+	public void setDnsRemotePort(int dnsRemotePort) {
+		this.dnsRemotePort = dnsRemotePort;
 	}
 
 	public boolean getServeLocalOnly() {

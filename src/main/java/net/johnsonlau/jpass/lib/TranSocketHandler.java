@@ -31,25 +31,24 @@ public class TranSocketHandler extends Thread {
 			clientInput = socket.getInputStream();
 			clientOutput = socket.getOutputStream();
 
+			// get target host and port
 			byte[] header = {0, 0, 0, 0, 0, 0};
 			int readBytes = 0;
 			while(readBytes < 6) {
 				readBytes += clientInput.read(header, 0, 6 - readBytes);
 			}
-
 			String targetHost = (header[0] & 0xff) + "." + (header[1] & 0xff) + "." + (header[2] & 0xff) + "." + (header[3] & 0xff);
 			int targetPort = (header[4] & 0xff) * 256 + (header[5] & 0xff);
 
-			// Connect target server
 			App.log.info("TRAN[" + Integer.valueOf(TranServer.connectionCount.get()) + "] " + targetHost + ":" + String.valueOf(targetPort));
 
-			// 3. create proxy channel
+			// create proxy channel
 			// Use SSH Tunnel to connect remote server
 			sshChannel = SshClient.getStreamForwarder(targetHost, targetPort, false);
 			proxyInput = sshChannel.getInputStream();
 			proxyOutput = sshChannel.getOutputStream();
 		
-			// 5. do the following transmission
+			// do the following transmission
 			if (sshChannel != null) {
 				// New thread continue sending data to target server
 				new PassStreamingThread(clientInput, proxyOutput).start();

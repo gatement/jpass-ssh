@@ -15,27 +15,44 @@ public class App {
 	public static void main(String[] args) {
 		initMembers();
 		SshClient.connect();
+		
+		Thread httpServerThread = null;
+		Thread tranServerThread = null;
+		Thread dnsServerThread = null;
 
-		HttpServer httpServer = new HttpServer();
-		final Thread httpServerThread = new Thread(httpServer, "httpServer");
-		httpServerThread.start(); // run at a new thread
-		//thread.run(); //run at the current thread
+		if (settings.getHttpPort() != 0) {
+			HttpServer httpServer = new HttpServer();
+			httpServerThread = new Thread(httpServer, "httpServer");
+			httpServerThread.start(); // run at a new thread
+			//thread.run(); //run at the current thread
+		}
 
-		TranServer tranServer = new TranServer();
-		final Thread tranServerThread = new Thread(tranServer, "tranServer");
-		tranServerThread.start();
+		if (settings.getTranPort() != 0) {
+			TranServer tranServer = new TranServer();
+			tranServerThread = new Thread(tranServer, "tranServer");
+			tranServerThread.start();
+		}
 
-		DnsServer dnsServer = new DnsServer();
-		final Thread dnsServerThread = new Thread(dnsServer, "dnsServer");
-		dnsServerThread.start();
+		if (settings.getDnsPort() != 0) {
+			DnsServer dnsServer = new DnsServer();
+			dnsServerThread = new Thread(dnsServer, "dnsServer");
+			dnsServerThread.start();
+	    }
 
 		try {
 			Thread.sleep(Long.MAX_VALUE);
 		} catch (InterruptedException ex) {
 		}
-		httpServerThread.interrupt();
-		tranServerThread.interrupt();
-		dnsServerThread.interrupt();
+
+		if (httpServerThread != null) {
+			httpServerThread.interrupt();
+		}
+		if (tranServerThread != null) {
+			tranServerThread.interrupt();
+		}
+		if (dnsServerThread != null) {
+			dnsServerThread.interrupt();
+		}
 
 		SshClient.disconnect();
 	}

@@ -28,7 +28,6 @@ public class DnsServer implements Runnable {
 					byte[] buf = new byte[8192];
 					DatagramPacket packet = new DatagramPacket(buf, buf.length);
 	                serverSocket.receive(packet);
-
 	                if (packet.getLength() > 0) {
 						new DnsSocketHandler(packet).start();
 	                }

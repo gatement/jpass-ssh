@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.SocketException;
+import java.util.Arrays;
 
 import com.jcraft.jsch.Channel;
 
@@ -45,11 +45,13 @@ public class DnsSocketHandler extends Thread {
 			// do the following transmission
 			if (sshChannel != null) {
 				// send request
-				proxyOutput.write(packet.getData(), 0, packet.getLength());
+				byte[] requestData = buildRequestData(packet.getData(), packet.getLength());
+				proxyOutput.write(requestData, 0, requestData.length);
+				proxyOutput.flush();
 
 				// debug
-				App.log.info("sending: " + String.valueOf(packet.getLength()));
-				Util.printBytes(packet.getData(), packet.getLength());
+				App.log.info("sending: " + String.valueOf(requestData.length));
+				Util.printBytes(requestData, requestData.length);
 				
 				// receive response
 				byte[] data = new byte[65536]; // 64KB
@@ -108,5 +110,14 @@ public class DnsSocketHandler extends Thread {
 
 			DnsServer.connectionCount.decrementAndGet();
 		}
+	}
+
+	private 	byte[] buildRequestData(byte[] payload, int len) {
+		int totalLen = len + 1;
+		byte[] header = new byte[3];
+		header[0] = (byte)(totalLen >> 8);
+		header[1] = (byte)(totalLen);
+		header[2] = (byte)(1);
+		return Util.mergeBytes(header, Arrays.copyOf(packet.getData(), len));
 	}
 }

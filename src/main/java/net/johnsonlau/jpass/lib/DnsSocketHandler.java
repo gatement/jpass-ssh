@@ -37,7 +37,7 @@ public class DnsSocketHandler extends Thread {
 
 			// create proxy channel
 			// Use SSH Tunnel to connect remote server
-			App.log.info(App.settings.getDnsRemoteServer() + ":" + String.valueOf(App.settings.getDnsRemotePort()));
+			App.log.info("tunnel to " + App.settings.getDnsRemoteServer() + ":" + String.valueOf(App.settings.getDnsRemotePort()));
 			sshChannel = SshClient.getStreamForwarder(App.settings.getDnsRemoteServer(), App.settings.getDnsRemotePort(), false);
 			proxyInput = sshChannel.getInputStream();
 			proxyOutput = sshChannel.getOutputStream();
@@ -113,11 +113,10 @@ public class DnsSocketHandler extends Thread {
 	}
 
 	private 	byte[] buildRequestData(byte[] payload, int len) {
-		int totalLen = len + 1;
-		byte[] header = new byte[3];
+		int totalLen = len;
+		byte[] header = new byte[2];
 		header[0] = (byte)(totalLen >> 8);
 		header[1] = (byte)(totalLen);
-		header[2] = (byte)(1);
 		return Util.mergeBytes(header, Arrays.copyOf(packet.getData(), len));
 	}
 }

@@ -14,6 +14,8 @@ public class App {
 
 	public static void main(String[] args) {
 		initMembers();
+		test();
+
 		SshClient.connect();
 		
 		Thread httpServerThread = null;
@@ -71,5 +73,13 @@ public class App {
 		settings.setDnsRemoteServer(System.getProperty("dnsRemoteServer", "127.0.0.1"));
 		settings.setDnsRemotePort(Integer.parseInt(System.getProperty("dnsRemotePort", "53")));
 		settings.setServeLocalOnly(Boolean.parseBoolean(System.getProperty("serveLocalOnly", "true")));
+	}
+	
+	private static void test() {
+		byte a = 23;
+		byte b = -1;
+		int ia = a & 0xff;
+		int ib = b & 0xff;
+        //log.info(String.valueOf(ia) + ", " + String.valueOf(ib));
 	}
 }

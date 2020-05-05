@@ -45,9 +45,6 @@ public class HttpSocketHandler extends Thread {
 					// Extract HTTP method and target server:
 					//   Example1: CONNECT www.example.com:443 HTTP/1.1
 					//   Example2: POST http://www.example.com/a/b/c HTTP/1.1
-					//   Example3: GET /johnsontest HTTP/1.1
-					//             Host: www.example.com
-					//             Host: www.example.com:8080
 
 					String[] headerLines = headStr.toString().split("\r\n");
 					String[] firstLine = headerLines[0].split(" ");

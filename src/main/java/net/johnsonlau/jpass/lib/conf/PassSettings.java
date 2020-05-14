@@ -12,10 +12,6 @@ public class PassSettings {
 	private String sshUsername = "root";
 	private String sshPassword = "";
 	private int httpPort = 8119;
-	private int tranPort = 8117;
-	private int dnsPort = 53;
-	private String dnsRemoteServer = "127.0.0.1";
-	private int dnsRemotePort = 53;
 	private boolean serveLocalOnly = true;
 
 	public PassSettings() {
@@ -59,38 +55,6 @@ public class PassSettings {
 
 	public void setHttpPort(int httpPort) {
 		this.httpPort = httpPort;
-	}
-
-	public int getTranPort() {
-		return this.tranPort;
-	}
-
-	public void setTranPort(int tranPort) {
-		this.tranPort = tranPort;
-	}
-
-	public int getDnsPort() {
-		return this.dnsPort;
-	}
-
-	public void setDnsPort(int dnsPort) {
-		this.dnsPort = dnsPort;
-	}
-
-	public String getDnsRemoteServer() {
-		return this.dnsRemoteServer;
-	}
-
-	public void setDnsRemoteServer(String dnsRemoteServer) {
-		this.dnsRemoteServer = dnsRemoteServer;
-	}
-
-	public int getDnsRemotePort() {
-		return this.dnsRemotePort;
-	}
-
-	public void setDnsRemotePort(int dnsRemotePort) {
-		this.dnsRemotePort = dnsRemotePort;
 	}
 
 	public boolean getServeLocalOnly() {
